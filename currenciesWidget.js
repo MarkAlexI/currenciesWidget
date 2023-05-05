@@ -1,5 +1,24 @@
 'use strict';
 
+const enterToDialog = document.body.appendChild(document.createElement('div'));
+
+enterToDialog.innerHTML = `
+<style>
+  #currency_widget_dialog {
+    background-color: lime;
+  }
+</style>
+<dialog id="currency_widget_dialog">
+  <form>
+    <input type="text" placeholder="@#$" />
+    <button formmethod="dialog" type="submit">Cancel</button>
+    <button type="submit">Submit</button>
+  </form>
+</dialog>
+`;
+
+const dialog = document.getElementById("currency_widget_dialog");
+
 const savedKey = localStorage.getItem('key') ||
   prompt('Print your API-key', '');
 
@@ -18,20 +37,6 @@ const getResponse = (response) => {
   div.setAttribute('color', 'yellow');
   div.appendChild(frag);
   document.querySelector('body').appendChild(div);
-};
-
-const createDialog = (placeholder = "Please, enter your API-key") => {
-  const fragment = document.createDocumentFragment();
-  const textarea = fragment
-    .appendChild(document.createElement("dialog"))
-    .appendChild(document.createElement("section"))
-    .appendChild(document.createElement("textarea"));
-  textarea.placeholder = placeholder;
-  
-  document.body.appendChild(fragment);
-  
-  let dialog = document.querySelector("dialog");
-  dialog.setAttribute("open", "true");
 };
 
 fetch(`https://min-api.cryptocompare.com/data/price?fsym=${BASE}&tsyms=USD,JPY,EUR&api_key={${savedKey}}`, {
