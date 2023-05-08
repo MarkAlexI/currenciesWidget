@@ -15,12 +15,20 @@ enterToDialog.innerHTML = `
   #currency_widget_dialog::backdrop {
     background-color: hsl(250, 100%, 50%, 0.25);
   }
+  #currency_widget_select {
+    display: none;
+  }
   #currency_widget_field {
     position: fixed;
     bottom: 5rem;
     right: 2rem;
     z-index: 10;
     border: 1px solid black;
+  }
+  #currency_widget_settings {
+    margin: 0;
+    height: 1.2rem;
+    background-color: lightcyan;
   }
   #currency_widget_field table {
     width: 9rem;
@@ -42,6 +50,18 @@ enterToDialog.innerHTML = `
       type="text"
       placeholder="Print your API-key"
     />
+    <select
+      id="currency_widget_select"
+    />
+      <option value="">--Choose currency</option>
+      <option value="UAH">UAH</option>
+      <option value="EUR">EUR</option>
+      <option value="USD">USD</option>
+      <option value="PLZ">PLZ</option>
+      <option value="BTC">BTC</option>
+      <option value="JPY">JPY</option>
+      <option value="ETH">ETH</option>
+    </select>
     <button
       id="currency_widget_left_btn"
       formmethod="dialog"
@@ -54,6 +74,9 @@ enterToDialog.innerHTML = `
   </form>
 </dialog>
 <div id="currency_widget_field">
+  <div id="currency_widget_settings">
+    Set your rules!
+  </div>
   <table>
     <tbody id="currency_widget_data">
       
@@ -68,6 +91,7 @@ const leftBtn = document.getElementById("currency_widget_left_btn");
 const rightBtn = document.getElementById("currency_widget_right_btn");
 const field = document.getElementById("currency_widget_field");
 const data = document.getElementById("currency_widget_data");
+const select = document.getElementById("currency_widget_select");
 
 const openDialog = () => !dialog.open && dialog.showModal();
 
@@ -88,6 +112,8 @@ const takeFromInput = () => {
 
 leftBtn.addEventListener('click', closeDialog);
 rightBtn.addEventListener('click', takeFromInput);
+
+select.addEventListener('change', () => console.log(select.value));
 
 const getResponse = (response) => {
   let content = '';
@@ -128,6 +154,6 @@ if (savedKey?.length > 0) {
 function submitForm(event) {
   event.preventDefault();
   window.history.back();
-  !!input.value && getCources();
+  (!!input.value || !!select.value) && getCources();
   return false;
 }
