@@ -1,6 +1,7 @@
 'use strict';
 
-const BASE = 'UAH';
+const DEFAULT_BASE = 'USD';
+let BASE = localStorage.getItem('BASE') || ADEFAULT_BASE;
 
 const enterToDialog = document.body.appendChild(document.createElement('div'));
 
@@ -15,8 +16,14 @@ enterToDialog.innerHTML = `
   #currency_widget_dialog::backdrop {
     background-color: hsl(250, 100%, 50%, 0.25);
   }
-  #currency_widget_select {
+  .hidden {
     display: none;
+  }
+  #currency_widget_base_btn {
+    border: 1px black solid;
+    border-radius: 5%;
+    background-color: grey;
+    color: blue;
   }
   #currency_widget_field {
     position: fixed;
@@ -27,7 +34,9 @@ enterToDialog.innerHTML = `
   }
   #currency_widget_settings {
     margin: 0;
-    height: 1.2rem;
+    height: 1.8rem;
+    display: flex;
+    justify-content: space-between;
     background-color: lightcyan;
   }
   #currency_widget_field table {
@@ -52,6 +61,7 @@ enterToDialog.innerHTML = `
     />
     <select
       id="currency_widget_select"
+      class="hidden"
     />
       <option value="">--Choose currency</option>
       <option value="UAH">UAH</option>
@@ -75,7 +85,9 @@ enterToDialog.innerHTML = `
 </dialog>
 <div id="currency_widget_field">
   <div id="currency_widget_settings">
-    Set your rules!
+    <button id="currency_widget_base_btn">
+      BASE
+    </button>
   </div>
   <table>
     <tbody id="currency_widget_data">
@@ -92,6 +104,7 @@ const rightBtn = document.getElementById("currency_widget_right_btn");
 const field = document.getElementById("currency_widget_field");
 const data = document.getElementById("currency_widget_data");
 const select = document.getElementById("currency_widget_select");
+const changeBaseBtn = document.getElementById("currency_widget_base_btn");
 
 const openDialog = () => !dialog.open && dialog.showModal();
 
@@ -99,21 +112,33 @@ const closeDialog = () => dialog.close();
 
 let savedKey = localStorage.getItem('key');
 
-const saveLocal = () => localStorage.setItem('key', savedKey);
+const saveLocal = (key, value) => localStorage.setItem(key, value);
 
 const takeFromInput = () => {
   if (input.value) {
     savedKey = input.value;
     input.value = '';
-    saveLocal();
-    closeDialog();
+    saveLocal('key', savedKey);
   }
+  if (select.value) {
+    BASE = select.value;
+    saveLocal('BASE', select.value);
+  }
+  closeDialog();
+};
+
+const changeBase = () => {
+  openDialog();
+  input.classList.add('hidden');
+  select.classList.remove('hidden');
 };
 
 leftBtn.addEventListener('click', closeDialog);
 rightBtn.addEventListener('click', takeFromInput);
 
 select.addEventListener('change', () => console.log(select.value));
+
+changeBaseBtn.addEventListener('click', changeBase);
 
 const getResponse = (response) => {
   let content = '';
