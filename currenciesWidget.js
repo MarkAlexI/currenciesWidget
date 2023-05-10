@@ -19,10 +19,10 @@ enterToDialog.innerHTML = `
   .hidden {
     display: none;
   }
-  #currency_widget_base_btn {
+  button[id*="btn"] {
     border: 1px black solid;
     border-radius: 5%;
-    background-color: grey;
+    background-color: lightgrey;
     color: blue;
   }
   #currency_widget_field {
@@ -34,9 +34,11 @@ enterToDialog.innerHTML = `
   }
   #currency_widget_settings {
     margin: 0;
+    padding: .4rem;
     height: 1.8rem;
     display: flex;
-    justify-content: space-between;
+    gap: .3rem;
+    justify-content: center;
     background-color: lightcyan;
   }
   #currency_widget_field table {
@@ -67,7 +69,7 @@ enterToDialog.innerHTML = `
       <option value="UAH">UAH</option>
       <option value="EUR">EUR</option>
       <option value="USD">USD</option>
-      <option value="PLZ">PLZ</option>
+      <option value="PLN">PLN</option>
       <option value="BTC">BTC</option>
       <option value="JPY">JPY</option>
       <option value="ETH">ETH</option>
@@ -85,8 +87,14 @@ enterToDialog.innerHTML = `
 </dialog>
 <div id="currency_widget_field">
   <div id="currency_widget_settings">
+    <button id="currency_widget_api_btn">
+      API
+    </button>
     <button id="currency_widget_base_btn">
       BASE
+    </button>
+    <button id="currency_widget_courses_btn">
+      $
     </button>
   </div>
   <table>
@@ -104,7 +112,9 @@ const rightBtn = document.getElementById("currency_widget_right_btn");
 const field = document.getElementById("currency_widget_field");
 const data = document.getElementById("currency_widget_data");
 const select = document.getElementById("currency_widget_select");
+const changeApiKeyBtn = document.getElementById("currency_widget_api_btn");
 const changeBaseBtn = document.getElementById("currency_widget_base_btn");
+const changeCoursesBtn = document.getElementById("currency_widget_courses_btn");
 
 const openDialog = () => !dialog.open && dialog.showModal();
 
@@ -127,6 +137,12 @@ const takeFromInput = () => {
   closeDialog();
 };
 
+const changeApiKey = () => {
+  openDialog();
+  input.classList.remove('hidden');
+  select.classList.add('hidden');
+};
+
 const changeBase = () => {
   openDialog();
   input.classList.add('hidden');
@@ -138,6 +154,7 @@ rightBtn.addEventListener('click', takeFromInput);
 
 select.addEventListener('change', () => console.log(select.value));
 
+changeApiKeyBtn.addEventListener('click', changeApiKey);
 changeBaseBtn.addEventListener('click', changeBase);
 
 const getResponse = (response) => {
