@@ -1,7 +1,9 @@
 'use strict';
 
 const DEFAULT_BASE = 'USD';
-let BASE = localStorage.getItem('BASE') || ADEFAULT_BASE;
+const DEFAULT_TSYMS = 'USD,JPY,EUR';
+let BASE = localStorage.getItem('BASE') || DEFAULT_BASE;
+let TSYMS = localStorage.getItem('TSYMS') || DEFAULT_TSYMS;
 
 const enterToDialog = document.body.appendChild(document.createElement('div'));
 
@@ -149,13 +151,24 @@ const changeBase = () => {
   select.classList.remove('hidden');
 };
 
+const changeCourses = () => {
+  select.setAttribute("multiple", "");
+  changeBase();
+};
+
 leftBtn.addEventListener('click', closeDialog);
 rightBtn.addEventListener('click', takeFromInput);
 
-select.addEventListener('change', () => console.log(select.value));
+select.addEventListener('change', () => {
+  const options = document.getElementById('currency_widget_select').selectedOptions;
+  const values = Array.from(options).map(({ value }) => value).slice(1);
+  TSYMS = values.join(',');
+  getCources();
+});
 
 changeApiKeyBtn.addEventListener('click', changeApiKey);
 changeBaseBtn.addEventListener('click', changeBase);
+changeCoursesBtn.addEventListener('click', changeCourses);
 
 const getResponse = (response) => {
   let content = '';
@@ -175,7 +188,7 @@ const getResponse = (response) => {
 };
 
 const getCources = () => {
-  fetch(`https://min-api.cryptocompare.com/data/price?fsym=${BASE}&tsyms=USD,JPY,EUR&api_key={${savedKey}}`, {
+  fetch(`https://min-api.cryptocompare.com/data/price?fsym=${BASE}&tsyms=${TSYMS}&api_key={${savedKey}}`, {
       credentials: 'omit'
     })
     .then((response) => {
