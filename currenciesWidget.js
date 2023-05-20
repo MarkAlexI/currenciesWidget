@@ -10,13 +10,23 @@ const enterToDialog = document.body.appendChild(document.createElement('div'));
 enterToDialog.innerHTML = `
 <style>
   #currency_widget_dialog {
+    display: grid;
     background-color: lime;
     z-index: 10;
     margin-top: 10 px;
     border-radius: 1rem;
   }
+  #currency_widget_dialog:not([open]) {
+    pointer - events: none;
+    opacity: 0;
+  }
   #currency_widget_dialog::backdrop {
     background-color: hsl(250, 100%, 50%, 0.25);
+  }
+  @media (prefers-color-scheme: dark) {
+    #currency_widget_dialog {
+      background: pink;
+    }
   }
   .hidden {
     display: none;
@@ -77,6 +87,7 @@ enterToDialog.innerHTML = `
       <option value="ETH">ETH</option>
     </select>
     <button
+      autofocus
       id="currency_widget_left_btn"
       formmethod="dialog"
       type="submit"
