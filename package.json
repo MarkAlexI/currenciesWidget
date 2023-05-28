@@ -1,0 +1,12 @@
+{
+  "name": "currenciesWidget",
+  "version": "1.1.0",
+  "description": "Work with fetch method on browser.",
+  "main": "currenciesWidget.js",
+  "keywords": [
+    "js",
+    "currency's course"
+  ],
+  "author": "MarkAlexI",
+  "license": "MIT"
+}

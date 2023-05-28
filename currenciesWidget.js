@@ -2,8 +2,25 @@
 
 const DEFAULT_BASE = 'USD';
 const DEFAULT_TSYMS = 'USD,JPY,EUR';
+const CURRENCIES_LIST = 'UAH, EUR, USD, PLN, BTC, JPY, ETH';
 let BASE = localStorage.getItem('BASE') || DEFAULT_BASE;
 let TSYMS = localStorage.getItem('TSYMS') || DEFAULT_TSYMS;
+
+const createSelect = (id, isMultiple = false) => {
+  return `<select
+      id="${id}"
+      class="hidden"
+      ${isMultiple ? 'multiple=""' : ''}
+    />
+      <option value="">--Choose currency</option>
+      ${CURRENCIES_LIST
+        .split(', ')
+        .map(el => `<option value="${el}">${el}</option>`)
+        .join('')
+      }
+    </select>
+  `;
+};
 
 const enterToDialog = document.body.appendChild(document.createElement('div'));
 
@@ -17,7 +34,7 @@ enterToDialog.innerHTML = `
     border-radius: 1rem;
   }
   #currency_widget_dialog:not([open]) {
-    pointer - events: none;
+    pointer-events: none;
     opacity: 0;
   }
   #currency_widget_dialog::backdrop {
@@ -73,19 +90,8 @@ enterToDialog.innerHTML = `
       type="text"
       placeholder="Print your API-key"
     />
-    <select
-      id="currency_widget_select"
-      class="hidden"
-    />
-      <option value="">--Choose currency</option>
-      <option value="UAH">UAH</option>
-      <option value="EUR">EUR</option>
-      <option value="USD">USD</option>
-      <option value="PLN">PLN</option>
-      <option value="BTC">BTC</option>
-      <option value="JPY">JPY</option>
-      <option value="ETH">ETH</option>
-    </select>
+    ${createSelect('currency_widget_select')}
+    ${createSelect('currency_widget_multi_select')}
     <button
       autofocus
       id="currency_widget_left_btn"
