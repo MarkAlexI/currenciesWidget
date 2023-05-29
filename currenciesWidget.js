@@ -91,7 +91,7 @@ enterToDialog.innerHTML = `
       placeholder="Print your API-key"
     />
     ${createSelect('currency_widget_select')}
-    ${createSelect('currency_widget_multi_select')}
+    ${createSelect('currency_widget_multi_select', true)}
     <button
       autofocus
       id="currency_widget_left_btn"
@@ -124,16 +124,19 @@ enterToDialog.innerHTML = `
 </div>
 `;
 
-const dialog = document.getElementById("currency_widget_dialog");
-const input = document.getElementById("currency_widget_input");
-const leftBtn = document.getElementById("currency_widget_left_btn");
-const rightBtn = document.getElementById("currency_widget_right_btn");
-const field = document.getElementById("currency_widget_field");
-const data = document.getElementById("currency_widget_data");
-const select = document.getElementById("currency_widget_select");
-const changeApiKeyBtn = document.getElementById("currency_widget_api_btn");
-const changeBaseBtn = document.getElementById("currency_widget_base_btn");
-const changeCoursesBtn = document.getElementById("currency_widget_courses_btn");
+const getById = (id) => document.getElementById(id);
+
+const dialog = getById("currency_widget_dialog");
+const input = getById("currency_widget_input");
+const leftBtn = getById("currency_widget_left_btn");
+const rightBtn = getById("currency_widget_right_btn");
+const field = getById("currency_widget_field");
+const data = getById("currency_widget_data");
+const select = getById("currency_widget_select");
+const multiSelect = getById("currency_widget_multi_select");
+const changeApiKeyBtn = getById("currency_widget_api_btn");
+const changeBaseBtn = getById("currency_widget_base_btn");
+const changeCoursesBtn = getById("currency_widget_courses_btn");
 
 const openDialog = () => !dialog.open && dialog.showModal();
 
@@ -153,6 +156,9 @@ const takeFromInput = () => {
     BASE = select.value;
     saveLocal('BASE', select.value);
   }
+  if (multiSelect.value) {
+    console.log(multiSelect.value);
+  }
   closeDialog();
 };
 
@@ -160,25 +166,31 @@ const changeApiKey = () => {
   openDialog();
   input.classList.remove('hidden');
   select.classList.add('hidden');
+  multiSelect.classList.add('hidden');
 };
 
 const changeBase = () => {
   openDialog();
   input.classList.add('hidden');
+  multiSelect.classList.add('hidden');
   select.classList.remove('hidden');
 };
 
 const changeCourses = () => {
-  select.setAttribute("multiple", "");
-  changeBase();
+ openDialog();
+ input.classList.add('hidden');
+ multiSelect.classList.remove('hidden');
+ select.classList.add('hidden');
 };
 
 leftBtn.addEventListener('click', closeDialog);
 rightBtn.addEventListener('click', takeFromInput);
 
-select.addEventListener('change', () => {
-  const options = document.getElementById('currency_widget_select').selectedOptions;
-  const values = Array.from(options).map(({ value }) => value).slice(1);
+multiSelect.addEventListener('change', () => {
+  const options = document.getElementById('currency_widget_multi_select').selectedOptions;
+  const values = Array.from(options)
+    .map(({ value }) => value)
+    .filter(value => value !== '--Choose currency');
   TSYMS = values.join(',');
   getCources();
 });
@@ -226,6 +238,6 @@ if (savedKey?.length > 0) {
 function submitForm(event) {
   event.preventDefault();
   window.history.back();
-  (!!input.value || !!select.value) && getCources();
+  (!!input.value || !!select.value || !!multiSelect.value) && getCources();
   return false;
 }
