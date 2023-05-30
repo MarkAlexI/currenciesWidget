@@ -157,9 +157,15 @@ const takeFromInput = () => {
     saveLocal('BASE', select.value);
   }
   if (multiSelect.value) {
-    console.log(multiSelect.value);
+    const options = document.getElementById('currency_widget_multi_select').selectedOptions;
+    const values = Array.from(options)
+      .map(({ value }) => value)
+      .filter(value => value !== '--Choose currency');
+    TSYMS = values.join(',');
+    saveLocal('TSYMS', TSYMS);
   }
   closeDialog();
+  getCources();
 };
 
 const changeApiKey = () => {
@@ -185,15 +191,6 @@ const changeCourses = () => {
 
 leftBtn.addEventListener('click', closeDialog);
 rightBtn.addEventListener('click', takeFromInput);
-
-multiSelect.addEventListener('change', () => {
-  const options = document.getElementById('currency_widget_multi_select').selectedOptions;
-  const values = Array.from(options)
-    .map(({ value }) => value)
-    .filter(value => value !== '--Choose currency');
-  TSYMS = values.join(',');
-  getCources();
-});
 
 changeApiKeyBtn.addEventListener('click', changeApiKey);
 changeBaseBtn.addEventListener('click', changeBase);
