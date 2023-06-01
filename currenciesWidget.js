@@ -28,6 +28,7 @@ enterToDialog.innerHTML = `
 <style>
   #currency_widget_dialog {
     display: grid;
+    gap: 1.2rem;
     background-color: lime;
     z-index: 10;
     margin-top: 10 px;
@@ -49,6 +50,7 @@ enterToDialog.innerHTML = `
     display: none;
   }
   button[id*="btn"] {
+    height: 1.8rem;
     border: 1px black solid;
     border-radius: 5%;
     background-color: lightgrey;
@@ -63,12 +65,29 @@ enterToDialog.innerHTML = `
   }
   #currency_widget_settings {
     margin: 0;
-    padding: .4rem;
-    height: 1.8rem;
+    padding: .1rem .4rem 0 .4rem;
+    height: 1.3rem;
     display: flex;
-    gap: .3rem;
-    justify-content: center;
+    flex-direction: column;
+    row-gap: .3rem;
+    justify-content: start;
+    align-items: start;
     background-color: lightcyan;
+    overflow: hidden;
+  }
+  #currency_widget_settings.open {
+    height: 11.5rem;
+  }
+  #currency_widget_settings_triangle {
+    width: 0;
+    height: 0;
+    border-left: .5rem solid transparent;
+    border-right: .5rem solid transparent;
+    border-top: 1rem solid black;
+  }
+  :is(#currency_widget_settings.open) #currency_widget_settings_triangle {
+    border-bottom: 1rem solid black;
+    border-top: 0;
   }
   #currency_widget_field table {
     width: 9rem;
@@ -106,14 +125,16 @@ enterToDialog.innerHTML = `
 </dialog>
 <div id="currency_widget_field">
   <div id="currency_widget_settings">
+    <div id="currency_widget_settings_triangle"></div>
+    <p>Change:</p>
     <button id="currency_widget_api_btn">
-      API
+      API-key
     </button>
     <button id="currency_widget_base_btn">
-      BASE
+      BASE currency
     </button>
     <button id="currency_widget_courses_btn">
-      $
+     List of currencies
     </button>
   </div>
   <table>
@@ -130,13 +151,22 @@ const dialog = getById("currency_widget_dialog");
 const input = getById("currency_widget_input");
 const leftBtn = getById("currency_widget_left_btn");
 const rightBtn = getById("currency_widget_right_btn");
+
 const field = getById("currency_widget_field");
 const data = getById("currency_widget_data");
 const select = getById("currency_widget_select");
 const multiSelect = getById("currency_widget_multi_select");
+
+const settings = getById("currency_widget_settings");
+const triangle = getById("currency_widget_settings_triangle");
+
 const changeApiKeyBtn = getById("currency_widget_api_btn");
 const changeBaseBtn = getById("currency_widget_base_btn");
 const changeCoursesBtn = getById("currency_widget_courses_btn");
+
+triangle.addEventListener('click', () => {
+  settings.classList.toggle('open');
+});
 
 const openDialog = () => !dialog.open && dialog.showModal();
 
