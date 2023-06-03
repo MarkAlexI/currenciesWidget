@@ -176,6 +176,9 @@ let savedKey = localStorage.getItem('key');
 
 const saveLocal = (key, value) => localStorage.setItem(key, value);
 
+const changeTextOnBaseBtn = () => changeBaseBtn.innerHTML = `BASE currency: ${BASE}`;
+changeTextOnBaseBtn();
+
 const takeFromInput = () => {
   if (input.value) {
     savedKey = input.value;
@@ -185,6 +188,7 @@ const takeFromInput = () => {
   if (select.value) {
     BASE = select.value;
     saveLocal('BASE', select.value);
+    changeTextOnBaseBtn();
   }
   if (multiSelect.value) {
     const options = document.getElementById('currency_widget_multi_select').selectedOptions;
