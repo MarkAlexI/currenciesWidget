@@ -1,6 +1,6 @@
 {
   "name": "currenciesWidget",
-  "version": "1.3.3",
+  "version": "1.4.3",
   "description": "Work with fetch method on browser.",
   "main": "currenciesWidget.js",
   "keywords": [

@@ -1,5 +1,8 @@
 'use strict';
 
+const DEFAULT_BOTTOM = 5;
+const DEFAULT_RIGHT = 2;
+
 const DEFAULT_BASE = 'USD';
 const DEFAULT_TSYMS = 'USD,JPY,EUR';
 const CURRENCIES_LIST = 'UAH, EUR, USD, PLN, BTC, JPY, ETH';
@@ -76,7 +79,7 @@ enterToDialog.innerHTML = `
     overflow: hidden;
   }
   #currency_widget_settings.open {
-    height: 11.5rem;
+    height: 16rem;
   }
   #currency_widget_settings_triangle {
     width: 0;
@@ -88,6 +91,18 @@ enterToDialog.innerHTML = `
   :is(#currency_widget_settings.open) #currency_widget_settings_triangle {
     border-bottom: 1rem solid black;
     border-top: 0;
+  }
+  #currency_widget_settings_move {
+    display: flex;
+    gap: .6rem;
+  }
+  button[id*="arrow"] {
+    height: 1.8rem;
+    border: 2px black solid;
+    border-radius: 10%;
+    background-color: smokewhite;
+    color: black;
+    font-weight: bold;
   }
   #currency_widget_field table {
     width: 9rem;
@@ -126,6 +141,21 @@ enterToDialog.innerHTML = `
 <div id="currency_widget_field">
   <div id="currency_widget_settings">
     <div id="currency_widget_settings_triangle"></div>
+    <p>Move:</p>
+      <div id="currency_widget_settings_move">
+        <button
+          id="currency_widget_settings_move_left_arrow"
+        >&larr;</button>
+        <button
+          id="currency_widget_settings_move_up_arrow"
+        >&uarr;</button>
+        <button
+          id="currency_widget_settings_move_right_arrow"
+        >&rarr;</button>
+        <button
+          id="currency_widget_settings_move_bottom_arrow"
+        >&darr;</button>
+      </div>
     <p>Change:</p>
     <button id="currency_widget_api_btn">
       API-key
