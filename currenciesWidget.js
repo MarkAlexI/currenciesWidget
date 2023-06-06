@@ -2,6 +2,8 @@
 
 const DEFAULT_BOTTOM = 5;
 const DEFAULT_RIGHT = 2;
+const MAX_RIGHT = Math.floor((window.innerWidth - 150)/16);
+const MAX_BOTTOM = Math.floor((window.innerHeight - 410)/16);
 
 const DEFAULT_BASE = 'USD';
 const DEFAULT_TSYMS = 'USD,JPY,EUR';
@@ -198,7 +200,7 @@ const triangle = getById("currency_widget_settings_triangle");
 const leftArrow = getById("currency_widget_settings_move_left_arrow");
 const upArrow = getById("currency_widget_settings_move_up_arrow");
 const rightArrow = getById("currency_widget_settings_move_right_arrow");
-const bottomArrow = getById("currency_widget_settings_move_bottom_arrow");
+const downArrow = getById("currency_widget_settings_move_bottom_arrow");
 
 const changeApiKeyBtn = getById("currency_widget_api_btn");
 const changeBaseBtn = getById("currency_widget_base_btn");
@@ -216,14 +218,34 @@ let savedKey = localStorage.getItem('key');
 
 const saveLocal = (key, value) => localStorage.setItem(key, value);
 
-const fieldStyles = getComputedStyle(field, null);
-
-const render = () => {
-  console.log(fieldStyles.getPropertyValue("right"));
-  field.style["right"] = "3rem";
+const newStyleValue = (route) => {
+  if (route === 'left') return Math.min(MAX_RIGHT, RIGHT + 1);
+  if (route === 'right') return Math.max(0, RIGHT - 1);
+  if (route === 'up') return Math.min(MAX_BOTTOM, BOTTOM + 1);
+  if (route === 'down') return Math.max(0, BOTTOM - 1);
 };
 
-leftArrow.addEventListener('click', render);
+const render = (route) => {
+  if (route === 'left' || route === 'right') {
+    RIGHT = newStyleValue(route);
+    saveLocal('RIGHT', RIGHT);
+    field.style["right"] = `${RIGHT}rem`;
+  } else {
+    BOTTOM = newStyleValue(route);
+    saveLocal('BOTTOM', BOTTOM);
+    field.style["bottom"] = `${BOTTOM}rem`;
+  }
+};
+
+const moveLeft = () => render('left');
+const moveRight = () => render('right');
+const moveUp = () => render('up');
+const moveDown = () => render('down');
+
+leftArrow.addEventListener('click', moveLeft);
+rightArrow.addEventListener('click', moveRight);
+upArrow.addEventListener('click', moveUp);
+downArrow.addEventListener('click', moveDown);
 
 const changeTextOnBaseBtn = () => changeBaseBtn.innerHTML = `BASE currency: ${BASE}`;
 changeTextOnBaseBtn();
