@@ -9,6 +9,9 @@ const CURRENCIES_LIST = 'UAH, EUR, USD, PLN, BTC, JPY, ETH';
 let BASE = localStorage.getItem('BASE') || DEFAULT_BASE;
 let TSYMS = localStorage.getItem('TSYMS') || DEFAULT_TSYMS;
 
+let BOTTOM = localStorage.getItem('BOTTOM') || DEFAULT_BOTTOM;
+let RIGHT = localStorage.getItem('RIGHT') || DEFAULT_RIGHT;
+
 const createSelect = (id, isMultiple = false) => {
   return `<select
       id="${id}"
@@ -58,11 +61,12 @@ enterToDialog.innerHTML = `
     border-radius: 5%;
     background-color: lightgrey;
     color: blue;
+    cursor: pointer;
   }
   #currency_widget_field {
     position: fixed;
-    bottom: 5rem;
-    right: 2rem;
+    bottom: ${BOTTOM}rem;
+    right: ${RIGHT}rem;
     z-index: 10;
     border: 1px solid black;
   }
@@ -103,6 +107,7 @@ enterToDialog.innerHTML = `
     background-color: smokewhite;
     color: black;
     font-weight: bold;
+    cursor: pointer;
   }
   #currency_widget_field table {
     width: 9rem;
@@ -190,6 +195,11 @@ const multiSelect = getById("currency_widget_multi_select");
 const settings = getById("currency_widget_settings");
 const triangle = getById("currency_widget_settings_triangle");
 
+const leftArrow = getById("currency_widget_settings_move_left_arrow");
+const upArrow = getById("currency_widget_settings_move_up_arrow");
+const rightArrow = getById("currency_widget_settings_move_right_arrow");
+const bottomArrow = getById("currency_widget_settings_move_bottom_arrow");
+
 const changeApiKeyBtn = getById("currency_widget_api_btn");
 const changeBaseBtn = getById("currency_widget_base_btn");
 const changeCoursesBtn = getById("currency_widget_courses_btn");
@@ -205,6 +215,15 @@ const closeDialog = () => dialog.close();
 let savedKey = localStorage.getItem('key');
 
 const saveLocal = (key, value) => localStorage.setItem(key, value);
+
+const fieldStyles = getComputedStyle(field, null);
+
+const render = () => {
+  console.log(fieldStyles.getPropertyValue("right"));
+  field.style["right"] = "3rem";
+};
+
+leftArrow.addEventListener('click', render);
 
 const changeTextOnBaseBtn = () => changeBaseBtn.innerHTML = `BASE currency: ${BASE}`;
 changeTextOnBaseBtn();
