@@ -1,8 +1,8 @@
 {
   "name": "currenciesWidget",
-  "version": "1.6.3",
-  "description": "Work with fetch method on browser.",
-  "main": "currenciesWidget.js",
+  "version": "1.7.3",
+  "description": "Currency widget for the site.",
+  "main": "currenciesWidget.min.js",
   "keywords": [
     "js",
     "currency's course"
