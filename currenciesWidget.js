@@ -7,7 +7,7 @@ const MAX_BOTTOM = Math.floor((window.innerHeight - 410)/16);
 
 const DEFAULT_BASE = 'USD';
 const DEFAULT_TSYMS = 'USD,JPY,EUR';
-const CURRENCIES_LIST = 'UAH, EUR, USD, PLN, BTC, JPY, ETH';
+const CURRENCIES_LIST = 'UAH, EUR, USD, GBP, JPY, AUD, CAD, CHF, OMR, NZD, PLN, BTC, ETH, DOGE, USDT, USDC, BNB, XRP, ADA';
 let BASE = localStorage.getItem('BASE') || DEFAULT_BASE;
 let TSYMS = localStorage.getItem('TSYMS') || DEFAULT_TSYMS;
 
