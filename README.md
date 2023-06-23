@@ -3,6 +3,8 @@ Currency widget for the site.
 ![widget.png](/widget.png "widget")
 ## How to work with widget
 Using the script is free.
+Total weight of used min.script is less than 7kB.
+For the widget to work, only a file with the `js` extension is needed.
 
 Add this code on bottom the body of your page:  
 `<script src="./currenciesWidget.js"></script>`
