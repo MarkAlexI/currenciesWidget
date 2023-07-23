@@ -1,13 +1,13 @@
 {
   "name": "currencieswidget",
-  "version": "1.10.3",
+  "version": "1.11.3",
   "description": "Currency widget for the site.",
   "main": "currenciesWidget.min.js",
   "keywords": [
     "js",
     "currency's course"
   ],
-  "author": "MarkAlexI",
+  "author": "markalexi",
   "license": "MIT",
   "repository": {
     "type": "git",
