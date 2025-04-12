@@ -85,7 +85,7 @@ enterToDialog.innerHTML = `
     overflow: hidden;
   }
   #currency_widget_settings.open {
-    height: 16rem;
+    height: 17rem;
   }
   #currency_widget_settings_triangle {
     width: 0;
@@ -125,7 +125,7 @@ enterToDialog.innerHTML = `
 <dialog
   id="currency_widget_dialog"
 >
-  <form onsubmit="submitForm(event)">
+  <form id="currency_widget_form">
     <input
       id="currency_widget_input"
       type="text"
@@ -214,7 +214,7 @@ const openDialog = () => !dialog.open && dialog.showModal();
 
 const closeDialog = () => dialog.close();
 
-let savedKey = localStorage.getItem('key');
+let savedKey = localStorage.getItem('key') || '';
 
 const saveLocal = (key, value) => localStorage.setItem(key, value);
 
@@ -331,15 +331,11 @@ const getCources = () => {
     });
 };
 
-if (savedKey?.length > 0) {
-  getCources();
-} else {
-  openDialog();
-}
+getCources();
 
-function submitForm(event) {
+document.getElementById('currency_widget_form').addEventListener('submit', function(event) {
   event.preventDefault();
   window.history.back();
   (!!input.value || !!select.value || !!multiSelect.value) && getCources();
   return false;
-}
+});
